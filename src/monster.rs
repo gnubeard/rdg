@@ -1,7 +1,7 @@
 use rand::{seq::SliceRandom, thread_rng, Rng};
-use serde::{self,Deserialize};
 use std::error::Error;
 use std::fmt;
+use crate::config::MonsterAttributes;
 
 pub struct Monster {
     id: u8,
@@ -13,27 +13,13 @@ pub struct Monster {
     extra_feature: String,
 }
 
-#[derive(Deserialize)]
-pub struct Config {
-    pub monsters: MonsterAttributes,
-}
-
-#[derive(Deserialize)]
-pub struct MonsterAttributes {
-    sizes: Vec<String>,
-    body_types: Vec<String>,
-    weak_points: Vec<String>,
-    behaviors: Vec<String>,
-    extra_features: Vec<String>,
-}
-
 impl Monster {
-    pub fn build(config: MonsterAttributes) -> Result<Monster, Box<dyn Error>> {
-        let sizes = config.sizes;
-        let body_types = config.body_types;
-        let weak_points = config.weak_points;
-        let behaviors = config.behaviors;
-        let extra_features = config.extra_features;
+    pub fn build(attrs: MonsterAttributes) -> Result<Monster, Box<dyn Error>> {
+        let sizes = attrs.sizes;
+        let body_types = attrs.body_types;
+        let weak_points = attrs.weak_points;
+        let behaviors = attrs.behaviors;
+        let extra_features = attrs.extra_features;
         let mut rng = thread_rng();
         let id = roll_d6() + roll_d6() + 2;
         let hp = roll_d6();
