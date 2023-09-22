@@ -1,6 +1,7 @@
-use rand::{Rng,thread_rng,seq::SliceRandom};
-use std::fmt;
+use rand::{seq::SliceRandom, thread_rng, Rng};
+use serde::{self,Deserialize};
 use std::error::Error;
+use std::fmt;
 
 pub struct Monster {
     id: u8,
@@ -12,56 +13,50 @@ pub struct Monster {
     extra_feature: String,
 }
 
+#[derive(Deserialize)]
+pub struct Config {
+    pub monsters: MonsterAttributes,
+}
+
+#[derive(Deserialize)]
+pub struct MonsterAttributes {
+    sizes: Vec<String>,
+    body_types: Vec<String>,
+    weak_points: Vec<String>,
+    behaviors: Vec<String>,
+    extra_features: Vec<String>,
+}
+
 impl Monster {
-    pub fn build() -> Result<Monster, Box<dyn Error>> {
-        let sizes: Vec<&str> = vec![
-            "Tiny",
-            "Half-Pint",
-            "Human-ish",
-            "Human-ish",
-            "Human-ish",
-            "Massive",
-        ];
-        let body_types: Vec<&str> = vec![
-            "Insectoid",
-            "Slithering",
-            "Humanoid",
-            "Quadruped",
-            "Metal-Fused",
-            "Horror",
-        ];
-        let weak_points: Vec<&str> = vec![
-            "Arm(s)",
-            "Leg(s)",
-            "Head(s)",
-            "Chest(s)",
-            "Pustule(s)",
-            "Other Limb(s)",
-        ];
-        let behaviors: Vec<&str> = vec![
-            "Relentless",
-            "Reproducer",
-            "Trapper",
-            "Grappler",
-            "Stalker",
-            "Climber",
-        ];
-        let extra_features: Vec<&str> = vec![
-            "Carapace",
-            "Extremely Fast",
-            "Sapient",
-            "Flies",
-            "Explodes",
-            "Transforms",
-        ];
+    pub fn build(config: MonsterAttributes) -> Result<Monster, Box<dyn Error>> {
+        let sizes = config.sizes;
+        let body_types = config.body_types;
+        let weak_points = config.weak_points;
+        let behaviors = config.behaviors;
+        let extra_features = config.extra_features;
         let mut rng = thread_rng();
         let id = roll_d6() + roll_d6() + 2;
         let hp = roll_d6();
-        let size = sizes.choose(&mut rng).ok_or("No monster sizes found!")?.to_string();
-        let body_type = body_types.choose(&mut rng).ok_or("No monster body types found!")?.to_string();
-        let weak_point = weak_points.choose(&mut rng).ok_or("No monster weak points found!")?.to_string();
-        let behavior = behaviors.choose(&mut rng).ok_or("No monster behaviors found!")?.to_string();
-        let extra_feature = extra_features.choose(&mut rng).ok_or("No monster extra features found!")?.to_string();
+        let size = sizes
+            .choose(&mut rng)
+            .ok_or("No monster sizes found!")?
+            .to_string();
+        let body_type = body_types
+            .choose(&mut rng)
+            .ok_or("No monster body types found!")?
+            .to_string();
+        let weak_point = weak_points
+            .choose(&mut rng)
+            .ok_or("No monster weak points found!")?
+            .to_string();
+        let behavior = behaviors
+            .choose(&mut rng)
+            .ok_or("No monster behaviors found!")?
+            .to_string();
+        let extra_feature = extra_features
+            .choose(&mut rng)
+            .ok_or("No monster extra features found!")?
+            .to_string();
         Ok(Monster {
             id,
             hp,
