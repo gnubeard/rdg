@@ -1,8 +1,10 @@
+use crate::config::MonsterAttributes;
 use rand::{seq::SliceRandom, thread_rng, Rng};
 use std::error::Error;
 use std::fmt;
-use crate::config::MonsterAttributes;
 
+#[derive(Debug)]
+#[derive(PartialEq)]
 pub struct Monster {
     id: u8,
     hp: u8,
@@ -67,5 +69,31 @@ impl fmt::Display for Monster {
         write!(f, "Weak Point: {}\n", self.weak_point)?;
         write!(f, "Behavior: {}\n", self.behavior)?;
         write!(f, "Extra Feature: {}\n", self.extra_feature)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn monster_from_attrs() {
+        let attrs = MonsterAttributes {
+            sizes: vec!["X".to_string()],
+            body_types: vec!["Y".to_string()],
+            weak_points: vec!["Z".to_string()],
+            behaviors: vec!["1".to_string()],
+            extra_features: vec!["2".to_string()],
+        };
+        let new_monster = Monster::build(attrs).unwrap();
+        let example_monster = Monster {
+            id: new_monster.id,
+            hp: new_monster.hp,
+            size: "X".to_string(),
+            body_type: "Y".to_string(),
+            weak_point: "Z".to_string(),
+            behavior: "1".to_string(),
+            extra_feature: "2".to_string(),
+        };
+        assert_eq!(example_monster, new_monster);
     }
 }
