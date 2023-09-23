@@ -30,3 +30,12 @@ Because I don't see this ever being seriously forked by anyone else anyway, and 
 
 
 send hate mail to ROB at ROBERT LAVERY dot COM
+
+## Building
+
+cargo test, cargo run, cargo build. Rust is great
+
+## Contributing
+
+Oh, thanks! This is really just a silly personal project but feel free to do whatever.
+I might accept your pull request but also maybe not? This is just a fun project for me.
