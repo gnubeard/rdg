@@ -6,7 +6,7 @@ TODO: Add docs.
 
 ## Rationale
 
-I want a CLI tool to procedurally generate rooms for arbitrary homebrew roleplay.
+I want a config-driven CLI tool to procedurally generate rooms for arbitrary homebrew roleplay.
 
 Building Rooms, Monsters, NPCs, and Items are currently in scope.
 
@@ -16,6 +16,7 @@ Progress:
 - [x] Monsters
 - [ ] Robots
 - [ ] NPCs
+- [ ] Environmental Hazards
 
 ## Why Rust?
 
