@@ -4,20 +4,27 @@ use rand::{seq::SliceRandom, thread_rng};
 use std::error::Error;
 use std::fmt;
 
-//struct Threat
+#[derive(Debug, PartialEq, Clone)]
+pub enum Threat {
+    Monster(Monster),
+    //    Hazard(Hazard),
+    //    Robot(String, u8),
+    //    Person(String),
+}
 
-//pub enum Threat {
-//    Hazard(Hazard),
-//    Robot(String, u8),
-//    Person(String),
-//    Monster(Monster),
-//}
+impl fmt::Display for Threat {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Threat::Monster(m) => write!(f, "  MONSTER:\n{}", m),
+        }
+    }
+}
 
 #[derive(Debug, PartialEq)]
 pub struct Room {
     room_type: String,
     descriptor: String,
-    threats: Vec<Monster>, // TODO: update to Vec<Threat>
+    threats: Vec<Threat>,
     door_count: u8,
     size: String,
     set_piece: String,
@@ -58,10 +65,13 @@ impl Room {
             .ok_or("No set pieces found!")?
             .to_string();
         let mut threats = Vec::new();
-        // TODO let threat_type = <Roll against Threat table>;
+        let threat_type_roll = roll_d6();
         for _ in 0..threat_count {
-            let my_monster = Monster::build(&config.monsters)?;
-            threats.push(my_monster);
+            let my_threat = match threat_type_roll {
+                0..=6 => Threat::Monster(Monster::build(&config.monsters)?),
+                _ => panic!("d6 rolled higher than a 6!"),
+            };
+            threats.push(my_threat);
         }
         Ok(Room {
             room_type,
@@ -76,14 +86,15 @@ impl Room {
 
 impl fmt::Display for Room {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "Room Type: {}\n", self.room_type)?;
-        write!(f, "Descriptor: {}\n", self.descriptor)?;
+        write!(f, "SET PIECE: {}\n", self.set_piece)?;
+        write!(f, "ROOM TYPE: {}\n", self.room_type)?;
+        write!(f, "DESCRIPTOR: {}\n", self.descriptor)?;
+        write!(f, "DOOR COUNT: {}\n", self.door_count)?;
+        write!(f, "SIZE: {}\n", self.size)?;
         for (i, threat) in self.threats.iter().enumerate() {
-            write!(f, "Threat {}:\n{}\n", i + 1, threat)?;
+            write!(f, "THREAT {}:\n{}\n", i + 1, threat)?;
         }
-        write!(f, "Door Count: {}\n", self.door_count)?;
-        write!(f, "Size: {}\n", self.size)?;
-        write!(f, "Set piece: {}", self.set_piece)
+        fmt::Result::Ok(())
     }
 }
 

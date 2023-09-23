@@ -59,11 +59,11 @@ impl Monster {
 impl fmt::Display for Monster {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "  ID: {} HP: {}\n", self.id, self.hp)?;
-        write!(f, "  Size: {}\n", self.size)?;
-        write!(f, "  Body Type: {}\n", self.body_type)?;
-        write!(f, "  Weak Point: {}\n", self.weak_point)?;
-        write!(f, "  Behavior: {}\n", self.behavior)?;
-        write!(f, "  Extra Feature: {}", self.extra_feature)
+        write!(f, "  SIZE: {}\n", self.size)?;
+        write!(f, "  BODY TYPE: {}\n", self.body_type)?;
+        write!(f, "  WEAK POINT: {}\n", self.weak_point)?;
+        write!(f, "  BEHAVIOR: {}\n", self.behavior)?;
+        write!(f, "  EXTRA FEATURE: {}", self.extra_feature)
     }
 }
 
