@@ -1,6 +1,6 @@
 mod monster;
-mod config;
 
+use dg::Config;
 use monster::Monster;
 use std::error::Error;
 use std::fs;
@@ -14,7 +14,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         process::exit(1);
     });
     let contents = fs::read_to_string(file_path)?;
-    let config = config::build(&contents)?;
+    let config = Config::build(&contents)?;
     let my_monster = Monster::build(config.monsters)?;
     println!("{}", my_monster);
     Ok(())

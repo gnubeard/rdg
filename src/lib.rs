@@ -15,7 +15,9 @@ pub struct MonsterAttributes {
     pub extra_features: Vec<String>,
 }
 
-pub fn build(str: &str) -> Result<Config, Box<dyn Error>> {
-    let config: Config = toml::from_str(str)?;
-    Ok(config)
+impl Config {
+    pub fn build(str: &str) -> Result<Self, Box<dyn Error>> {
+        let config: Self = toml::from_str(str)?;
+        Ok(config)
+    }
 }

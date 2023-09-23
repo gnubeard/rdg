@@ -1,4 +1,4 @@
-use crate::config::MonsterAttributes;
+use dg::MonsterAttributes;
 use rand::{seq::SliceRandom, thread_rng, Rng};
 use std::error::Error;
 use std::fmt;
