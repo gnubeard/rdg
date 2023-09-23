@@ -1,5 +1,6 @@
 mod monster;
 mod room;
+mod threat;
 use room::Room;
 
 use rand::Rng;
@@ -29,6 +30,7 @@ pub struct RoomAttributes {
     door_counts: Vec<u8>,
     sizes: Vec<String>,
     set_pieces: Vec<String>,
+    hazards: Vec<String>,
 }
 
 impl Config {

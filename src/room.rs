@@ -3,22 +3,7 @@ use monster::Monster;
 use rand::{seq::SliceRandom, thread_rng};
 use std::error::Error;
 use std::fmt;
-
-#[derive(Debug, PartialEq, Clone)]
-pub enum Threat {
-    Monster(Monster),
-    //    Hazard(Hazard),
-    //    Robot(String, u8),
-    //    Person(String),
-}
-
-impl fmt::Display for Threat {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Threat::Monster(m) => write!(f, "  MONSTER:\n{}", m),
-        }
-    }
-}
+use threat::Threat;
 
 #[derive(Debug, PartialEq)]
 pub struct Room {
@@ -68,7 +53,14 @@ impl Room {
         let threat_type_roll = roll_d6();
         for _ in 0..threat_count {
             let my_threat = match threat_type_roll {
-                0..=6 => Threat::Monster(Monster::build(&config.monsters)?),
+                0..=2 => Threat::Monster(Monster::build(&config.monsters)?),
+                3..=5 => Threat::Hazard(
+                    attrs
+                        .hazards
+                        .choose(&mut rng)
+                        .ok_or("No hazards found!")?
+                        .to_string(),
+                ),
                 _ => panic!("d6 rolled higher than a 6!"),
             };
             threats.push(my_threat);
@@ -104,12 +96,13 @@ mod tests {
     #[test]
     fn room_from_config() {
         let room_attrs = RoomAttributes {
-            room_types: vec!["X".to_string()],
-            descriptors: vec!["Y".to_string()],
+            room_types: vec!["Basic".to_string()],
+            descriptors: vec!["Blue".to_string()],
             threat_counts: vec![2],
             door_counts: vec![3],
-            sizes: vec!["3".to_string()],
-            set_pieces: vec!["4".to_string()],
+            sizes: vec!["Large".to_string()],
+            set_pieces: vec!["Skeletons".to_string()],
+            hazards: vec!["Chemical Spill".to_string()],
         };
         let monster_attrs = MonsterAttributes {
             sizes: vec!["X".to_string()],
@@ -126,12 +119,12 @@ mod tests {
         // a hole in testing, for now
         let threats = new_room.threats.clone();
         let example_room = Room {
-            room_type: "X".to_string(),
-            descriptor: "Y".to_string(),
-            threats, // TODO: threat enum
+            room_type: "Basic".to_string(),
+            descriptor: "Blue".to_string(),
+            threats,
             door_count: 3,
-            size: "3".to_string(),
-            set_piece: "4".to_string(),
+            size: "Large".to_string(),
+            set_piece: "Skeletons".to_string(),
         };
         assert_eq!(example_room, new_room);
     }
