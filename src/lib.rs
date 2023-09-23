@@ -10,28 +10,28 @@ use rand::Rng;
 
 #[derive(Deserialize)]
 pub struct Config {
-    pub monsters: MonsterAttributes,
-    pub rooms: RoomAttributes,
+    monsters: MonsterAttributes,
+    rooms: RoomAttributes,
 }
 
 #[derive(Deserialize)]
 pub struct MonsterAttributes {
-    pub sizes: Vec<String>,
-    pub body_types: Vec<String>,
-    pub weak_points: Vec<String>,
-    pub behaviors: Vec<String>,
-    pub extra_features: Vec<String>,
+    sizes: Vec<String>,
+    body_types: Vec<String>,
+    weak_points: Vec<String>,
+    behaviors: Vec<String>,
+    extra_features: Vec<String>,
 }
 
 #[derive(Deserialize)]
 pub struct RoomAttributes {
-    pub room_types: Vec<String>,
-    pub descriptors: Vec<String>,
-    pub threat_counts: Vec<String>,
-    pub threat_types: Vec<String>,
-    pub door_counts: Vec<String>,
-    pub sizes: Vec<String>,
-    pub set_pieces: Vec<String>,
+    room_types: Vec<String>,
+    descriptors: Vec<String>,
+    threat_counts: Vec<String>,
+    threat_types: Vec<String>,
+    door_counts: Vec<String>,
+    sizes: Vec<String>,
+    set_pieces: Vec<String>,
 }
 
 impl Config {
