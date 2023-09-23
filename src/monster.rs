@@ -1,5 +1,5 @@
-use crate::MonsterAttributes;
-use rand::{seq::SliceRandom, thread_rng, Rng};
+use crate::{MonsterAttributes, roll_d6};
+use rand::{seq::SliceRandom, thread_rng};
 use std::error::Error;
 use std::fmt;
 
@@ -26,23 +26,23 @@ impl Monster {
         let hp = roll_d6();
         let size = sizes
             .choose(&mut rng)
-            .ok_or("No monster sizes found!")?
+            .ok_or("No sizes found!")?
             .to_string();
         let body_type = body_types
             .choose(&mut rng)
-            .ok_or("No monster body types found!")?
+            .ok_or("No body types found!")?
             .to_string();
         let weak_point = weak_points
             .choose(&mut rng)
-            .ok_or("No monster weak points found!")?
+            .ok_or("No weak points found!")?
             .to_string();
         let behavior = behaviors
             .choose(&mut rng)
-            .ok_or("No monster behaviors found!")?
+            .ok_or("No behaviors found!")?
             .to_string();
         let extra_feature = extra_features
             .choose(&mut rng)
-            .ok_or("No monster extra features found!")?
+            .ok_or("No extra features found!")?
             .to_string();
         Ok(Monster {
             id,
@@ -54,10 +54,6 @@ impl Monster {
             extra_feature,
         })
     }
-}
-
-fn roll_d6() -> u8 {
-    rand::thread_rng().gen_range(0..6)
 }
 
 impl fmt::Display for Monster {
