@@ -1,59 +1,72 @@
-use crate::RoomAttributes;
+use crate::*;
+use monster::Monster;
 use rand::{seq::SliceRandom, thread_rng};
 use std::error::Error;
 use std::fmt;
+
+//struct Threat
+
+//pub enum Threat {
+//    Hazard(Hazard),
+//    Robot(String, u8),
+//    Person(String),
+//    Monster(Monster),
+//}
 
 #[derive(Debug, PartialEq)]
 pub struct Room {
     room_type: String,
     descriptor: String,
-    threat_count: String,
-    threat_type: String,
-    door_count: String,
+    threats: Vec<Monster>, // TODO: update to Vec<Threat>
+    door_count: u8,
     size: String,
     set_piece: String,
 }
 
 impl Room {
-    pub fn build(attrs: RoomAttributes) -> Result<Room, Box<dyn Error>> {
-        let room_types = attrs.room_types;
-        let descriptors = attrs.descriptors;
-        let threat_counts = attrs.threat_counts;
-        let threat_types = attrs.threat_types;
-        let door_counts = attrs.door_counts;
-        let sizes = attrs.sizes;
-        let set_pieces = attrs.set_pieces;
+    pub fn build(config: Config) -> Result<Room, Box<dyn Error>> {
+        let attrs: RoomAttributes = config.rooms;
         let mut rng = thread_rng();
-        let room_type = room_types
+        let room_type = attrs
+            .room_types
             .choose(&mut rng)
             .ok_or("No room types found!")?
             .to_string();
-        let descriptor = descriptors
+        let descriptor = attrs
+            .descriptors
             .choose(&mut rng)
             .ok_or("No descriptors found!")?
             .to_string();
-        let threat_count = threat_counts
+        let threat_count = attrs
+            .threat_counts
             .choose(&mut rng)
             .ok_or("No threat counts found!")?
-            .to_string();
-        let threat_type = threat_types
-            .choose(&mut rng)
-            .ok_or("No threat types found!")?
-            .to_string();
-        let door_count = door_counts
+            .clone();
+        let door_count = attrs
+            .door_counts
             .choose(&mut rng)
             .ok_or("No door counts found!")?
+            .clone();
+        let size = attrs
+            .sizes
+            .choose(&mut rng)
+            .ok_or("No sizes found!")?
             .to_string();
-        let size = sizes.choose(&mut rng).ok_or("No sizes found!")?.to_string();
-        let set_piece = set_pieces
+        let set_piece = attrs
+            .set_pieces
             .choose(&mut rng)
             .ok_or("No set pieces found!")?
             .to_string();
+        let mut threats = Vec::new();
+        // TODO let threat_type = <Roll against Threat table>;
+        for _ in 0..threat_count {
+            let my_monster = Monster::build(&config.monsters)?;
+            threats.push(my_monster);
+        }
         Ok(Room {
             room_type,
             descriptor,
-            threat_count,
-            threat_type,
+            threats,
             door_count,
             size,
             set_piece,
@@ -65,11 +78,12 @@ impl fmt::Display for Room {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Room Type: {}\n", self.room_type)?;
         write!(f, "Descriptor: {}\n", self.descriptor)?;
-        write!(f, "Threat Count: {}\n", self.threat_count)?;
-        write!(f, "Threat Type: {}\n", self.threat_type)?;
+        for (i, threat) in self.threats.iter().enumerate() {
+            write!(f, "Threat {}:\n{}\n", i + 1, threat)?;
+        }
         write!(f, "Door Count: {}\n", self.door_count)?;
         write!(f, "Size: {}\n", self.size)?;
-        write!(f, "Set piece: {}\n", self.set_piece)
+        write!(f, "Set piece: {}", self.set_piece)
     }
 }
 
@@ -78,22 +92,33 @@ mod tests {
     use super::*;
     #[test]
     fn room_from_attrs() {
-        let attrs = RoomAttributes {
+        let room_attrs = RoomAttributes {
             room_types: vec!["X".to_string()],
             descriptors: vec!["Y".to_string()],
-            threat_counts: vec!["Z".to_string()],
-            threat_types: vec!["1".to_string()],
-            door_counts: vec!["2".to_string()],
+            threat_counts: vec![2],
+            door_counts: vec![3],
             sizes: vec!["3".to_string()],
             set_pieces: vec!["4".to_string()],
         };
-        let new_room = Room::build(attrs).unwrap();
+        let monster_attrs = MonsterAttributes {
+            sizes: vec!["X".to_string()],
+            body_types: vec!["Y".to_string()],
+            weak_points: vec!["Z".to_string()],
+            behaviors: vec!["1".to_string()],
+            extra_features: vec!["2".to_string()],
+        };
+        let config = Config {
+            monsters: monster_attrs,
+            rooms: room_attrs,
+        };
+        let new_room = Room::build(config).unwrap();
+        // a hole in testing, for now
+        let threats = new_room.threats.clone();
         let example_room = Room {
             room_type: "X".to_string(),
             descriptor: "Y".to_string(),
-            threat_count: "Z".to_string(),
-            threat_type: "1".to_string(),
-            door_count: "2".to_string(),
+            threats, // TODO: threat enum
+            door_count: 3,
             size: "3".to_string(),
             set_piece: "4".to_string(),
         };

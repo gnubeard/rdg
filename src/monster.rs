@@ -3,7 +3,7 @@ use rand::{seq::SliceRandom, thread_rng};
 use std::error::Error;
 use std::fmt;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Monster {
     id: u8,
     hp: u8,
@@ -15,12 +15,12 @@ pub struct Monster {
 }
 
 impl Monster {
-    pub fn build(attrs: MonsterAttributes) -> Result<Monster, Box<dyn Error>> {
-        let sizes = attrs.sizes;
-        let body_types = attrs.body_types;
-        let weak_points = attrs.weak_points;
-        let behaviors = attrs.behaviors;
-        let extra_features = attrs.extra_features;
+    pub fn build(attrs: &MonsterAttributes) -> Result<Monster, Box<dyn Error>> {
+        let sizes = &attrs.sizes;
+        let body_types = &attrs.body_types;
+        let weak_points = &attrs.weak_points;
+        let behaviors = &attrs.behaviors;
+        let extra_features = &attrs.extra_features;
         let mut rng = thread_rng();
         let id = roll_d6() + roll_d6() + 2;
         let hp = roll_d6();
@@ -58,12 +58,12 @@ impl Monster {
 
 impl fmt::Display for Monster {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "ID: {} HP: {}\n", self.id, self.hp)?;
-        write!(f, "Size: {}\n", self.size)?;
-        write!(f, "Body Type: {}\n", self.body_type)?;
-        write!(f, "Weak Point: {}\n", self.weak_point)?;
-        write!(f, "Behavior: {}\n", self.behavior)?;
-        write!(f, "Extra Feature: {}\n", self.extra_feature)
+        write!(f, "  ID: {} HP: {}\n", self.id, self.hp)?;
+        write!(f, "  Size: {}\n", self.size)?;
+        write!(f, "  Body Type: {}\n", self.body_type)?;
+        write!(f, "  Weak Point: {}\n", self.weak_point)?;
+        write!(f, "  Behavior: {}\n", self.behavior)?;
+        write!(f, "  Extra Feature: {}", self.extra_feature)
     }
 }
 
@@ -79,7 +79,7 @@ mod tests {
             behaviors: vec!["1".to_string()],
             extra_features: vec!["2".to_string()],
         };
-        let new_monster = Monster::build(attrs).unwrap();
+        let new_monster = Monster::build(&attrs).unwrap();
         let example_monster = Monster {
             id: new_monster.id,
             hp: new_monster.hp,

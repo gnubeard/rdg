@@ -1,12 +1,10 @@
 mod monster;
-use monster::Monster;
-
 mod room;
 use room::Room;
 
+use rand::Rng;
 use serde::{self, Deserialize};
 use std::error::Error;
-use rand::Rng;
 
 #[derive(Deserialize)]
 pub struct Config {
@@ -14,7 +12,7 @@ pub struct Config {
     rooms: RoomAttributes,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct MonsterAttributes {
     sizes: Vec<String>,
     body_types: Vec<String>,
@@ -27,9 +25,8 @@ pub struct MonsterAttributes {
 pub struct RoomAttributes {
     room_types: Vec<String>,
     descriptors: Vec<String>,
-    threat_counts: Vec<String>,
-    threat_types: Vec<String>,
-    door_counts: Vec<String>,
+    threat_counts: Vec<u8>,
+    door_counts: Vec<u8>,
     sizes: Vec<String>,
     set_pieces: Vec<String>,
 }
@@ -47,9 +44,7 @@ pub fn roll_d6() -> u8 {
 
 pub fn run(s: &str) -> Result<(), Box<dyn Error>> {
     let config = Config::build(s)?;
-    let my_monster = Monster::build(config.monsters)?;
-    let my_room = Room::build(config.rooms)?;
-    println!("{}", my_monster);
+    let my_room = Room::build(config)?;
     println!("{}", my_room);
     Ok(())
 }
