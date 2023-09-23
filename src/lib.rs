@@ -1,4 +1,7 @@
-use serde::{self,Deserialize};
+mod monster;
+use monster::Monster;
+
+use serde::{self, Deserialize};
 use std::error::Error;
 
 #[derive(Deserialize)]
@@ -20,4 +23,11 @@ impl Config {
         let config: Self = toml::from_str(str)?;
         Ok(config)
     }
+}
+
+pub fn run(s: &str) -> Result<(), Box<dyn Error>> {
+    let config = Config::build(s)?;
+    let my_monster = Monster::build(config.monsters)?;
+    println!("{}", my_monster);
+    Ok(())
 }

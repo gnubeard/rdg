@@ -1,10 +1,9 @@
-use dg::MonsterAttributes;
+use crate::MonsterAttributes;
 use rand::{seq::SliceRandom, thread_rng, Rng};
 use std::error::Error;
 use std::fmt;
 
-#[derive(Debug)]
-#[derive(PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct Monster {
     id: u8,
     hp: u8,
