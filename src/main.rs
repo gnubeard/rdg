@@ -11,6 +11,5 @@ fn main() -> Result<(), Box<dyn Error>> {
         process::exit(1);
     });
     let config_file_data = fs::read_to_string(file_path)?;
-    run(&config_file_data)?;
-    Ok(())
+    run(&config_file_data)
 }
