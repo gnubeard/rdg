@@ -91,7 +91,7 @@ impl fmt::Display for Room {
 mod tests {
     use super::*;
     #[test]
-    fn room_from_attrs() {
+    fn room_from_config() {
         let room_attrs = RoomAttributes {
             room_types: vec!["X".to_string()],
             descriptors: vec!["Y".to_string()],
