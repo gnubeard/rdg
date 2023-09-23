@@ -12,10 +12,10 @@ Building Rooms, Monsters, NPCs, and Items are currently in scope.
 
 Progress:
 
-[x] Rooms
-[x] Monsters
-[ ] Robots
-[ ] NPCs
+- [x] Rooms
+- [x] Monsters
+- [ ] Robots
+- [ ] NPCs
 
 ## Why Rust?
 
