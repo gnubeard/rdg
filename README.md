@@ -1,8 +1,7 @@
 # rdg
 Rob's Dungeon Generator
 
-TODO: Add docs.
-
+TODO: Switch out Set Piece for an Option so they only show up when an 11 or 12 is rolled.
 
 ## Rationale
 
@@ -14,9 +13,10 @@ Progress:
 
 - [x] Rooms
 - [x] Monsters
-- [ ] Robots
-- [ ] NPCs
+- [x] Robots
+- [x] NPCs
 - [x] Environmental Hazards
+- [ ] Items
 
 ## Why Rust?
 
