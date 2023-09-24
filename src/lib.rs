@@ -12,12 +12,17 @@ pub struct Config {
     monsters: MonsterAttributes,
     rooms: RoomAttributes,
     people: PeopleAttributes,
+    robots: RobotAttributes,
 }
 
 #[derive(Deserialize, Clone)]
 pub struct PeopleAttributes {
     first_names: Vec<String>,
     last_names: Vec<String>,
+}
+
+#[derive(Deserialize, Clone)]
+pub struct RobotAttributes {
     robot_prefixes: Vec<String>,
     robot_suffixes: Vec<String>,
 }

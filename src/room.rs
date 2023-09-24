@@ -103,6 +103,8 @@ mod tests {
         let people_attrs = PeopleAttributes {
             first_names: vec!["Dave".to_string()],
             last_names: vec!["Davidson".to_string()],
+        };
+        let robot_attrs = RobotAttributes {
             robot_prefixes: vec!["R2".to_string()],
             robot_suffixes: vec!["D2".to_string()],
         };
@@ -110,6 +112,7 @@ mod tests {
             monsters: monster_attrs,
             rooms: room_attrs,
             people: people_attrs,
+            robots: robot_attrs,
         };
         let new_room = Room::build(&config).unwrap();
         // a hole in testing, for now

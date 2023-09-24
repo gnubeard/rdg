@@ -17,7 +17,7 @@ impl Threat {
         let threat = match threat_type_roll {
             0..=1 => Threat::Monster(Monster::build(&config.monsters)?),
             2..=3 => Threat::build_person(&config.people)?,
-            4..=5 => Threat::build_robot(&config.people)?,
+            4..=5 => Threat::build_robot(&config.robots)?,
             6..=6 => Threat::build_hazard(&config.rooms)?,
             _ => panic!("d6 rolled higher than a 6!"),
         };
@@ -48,7 +48,7 @@ impl Threat {
         let person = Threat::Person(format!("{} {}", first_name, last_name));
         Ok(person)
     }
-    fn build_robot(robot_attrs: &PeopleAttributes) -> Result<Self, Box<dyn Error>> {
+    fn build_robot(robot_attrs: &RobotAttributes) -> Result<Self, Box<dyn Error>> {
         let mut rng = thread_rng();
         let prefix = robot_attrs
             .robot_prefixes
