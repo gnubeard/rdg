@@ -1,5 +1,4 @@
 use crate::*;
-use monster::Monster;
 use rand::{seq::SliceRandom, thread_rng};
 use std::error::Error;
 use std::fmt;
@@ -16,8 +15,8 @@ pub struct Room {
 }
 
 impl Room {
-    pub fn build(config: Config) -> Result<Room, Box<dyn Error>> {
-        let attrs: RoomAttributes = config.rooms;
+    pub fn build(config: &Config) -> Result<Room, Box<dyn Error>> {
+        let attrs = &config.rooms;
         let mut rng = thread_rng();
         let room_type = attrs
             .room_types
@@ -52,17 +51,7 @@ impl Room {
         let mut threats = Vec::new();
         let threat_type_roll = roll_d6();
         for _ in 0..threat_count {
-            let my_threat = match threat_type_roll {
-                0..=2 => Threat::Monster(Monster::build(&config.monsters)?),
-                3..=5 => Threat::Hazard(
-                    attrs
-                        .hazards
-                        .choose(&mut rng)
-                        .ok_or("No hazards found!")?
-                        .to_string(),
-                ),
-                _ => panic!("d6 rolled higher than a 6!"),
-            };
+            let my_threat = Threat::roll(&config, threat_type_roll)?;
             threats.push(my_threat);
         }
         Ok(Room {
@@ -111,11 +100,18 @@ mod tests {
             behaviors: vec!["1".to_string()],
             extra_features: vec!["2".to_string()],
         };
+        let people_attrs = PeopleAttributes {
+            first_names: vec!["Dave".to_string()],
+            last_names: vec!["Davidson".to_string()],
+            robot_prefixes: vec!["R2".to_string()],
+            robot_suffixes: vec!["D2".to_string()],
+        };
         let config = Config {
             monsters: monster_attrs,
             rooms: room_attrs,
+            people: people_attrs,
         };
-        let new_room = Room::build(config).unwrap();
+        let new_room = Room::build(&config).unwrap();
         // a hole in testing, for now
         let threats = new_room.threats.clone();
         let example_room = Room {

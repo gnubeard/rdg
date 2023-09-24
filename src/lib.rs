@@ -11,6 +11,15 @@ use std::error::Error;
 pub struct Config {
     monsters: MonsterAttributes,
     rooms: RoomAttributes,
+    people: PeopleAttributes,
+}
+
+#[derive(Deserialize, Clone)]
+pub struct PeopleAttributes {
+    first_names: Vec<String>,
+    last_names: Vec<String>,
+    robot_prefixes: Vec<String>,
+    robot_suffixes: Vec<String>,
 }
 
 #[derive(Deserialize, Clone)]
@@ -22,7 +31,7 @@ pub struct MonsterAttributes {
     extra_features: Vec<String>,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct RoomAttributes {
     room_types: Vec<String>,
     descriptors: Vec<String>,
@@ -46,7 +55,7 @@ pub fn roll_d6() -> u8 {
 
 pub fn run(s: &str) -> Result<(), Box<dyn Error>> {
     let config = Config::build(s)?;
-    let my_room = Room::build(config)?;
+    let my_room = Room::build(&config)?;
     println!("{}", my_room);
     Ok(())
 }
