@@ -46,9 +46,44 @@ I might accept your pull request but also maybe not? This is just a fun project 
 lol it works on my machine
 
 ```bash
-17:06:24 rlavery@novo rdg >>
-cargo test
-    Finished test [unoptimized + debuginfo] target(s) in 0.05s
+20:51:23 rlavery@novo rdg >>
+cargo run -- ~/.dg.toml
+   Compiling rdg v0.1.0 (/usr/home/rlavery/Nonsense/rdg)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.16s
+     Running `target/debug/rdg /home/rlavery/.dg.toml`
+SET PIECE: Something snags your legs and dangles you from the ceiling!
+ROOM TYPE: Engineering
+DESCRIPTOR: Pristine
+DOOR COUNT: 3
+SIZE: Tall
+THREAT 1:
+  MONSTER:
+  ID: 9 HP: 2 LIMBS: 2
+  SIZE: Massive
+  BODY TYPE: Horror
+  WEAK POINT: Pustule(s)
+  BEHAVIOR: Trapper
+  EXTRA FEATURE: Transforms
+THREAT 2:
+  MONSTER:
+  ID: 5 HP: 5 LIMBS: 4
+  SIZE: Human-ish
+  BODY TYPE: Insectoid
+  WEAK POINT: Chest(s)
+  BEHAVIOR: Reproducer
+  EXTRA FEATURE: Flies
+THREAT 3:
+  MONSTER:
+  ID: 5 HP: 1 LIMBS: 5
+  SIZE: Half-Pint
+  BODY TYPE: Horror
+  WEAK POINT: Leg(s)
+  BEHAVIOR: Climber
+  EXTRA FEATURE: Carapace
+
+20:51:27 rlavery@novo rdg >>
+cargo test;
+    Finished test [unoptimized + debuginfo] target(s) in 0.02s
      Running unittests src/lib.rs (target/debug/deps/rdg-8dd919069ed12359)
 
 running 2 tests
@@ -68,25 +103,4 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-17:06:28 rlavery@novo rdg >>
-cargo build
-    Finished dev [unoptimized + debuginfo] target(s) in 0.02s
-17:06:34 rlavery@novo rdg >>
-./target/debug/rdg
-Usage: ./target/debug/rdg FILE
-17:06:44 rlavery@novo rdg >>
-./target/debug/rdg ~/.dg.toml
-Room Type: Bunk
-Descriptor: Pristine
-Threat 1:
-  ID: 10 HP: 5
-  Size: Human-ish
-  Body Type: Humanoid
-  Weak Point: Arm(s)
-  Behavior: Stalker
-  Extra Feature: Sapient
-Door Count: 5
-Size: Large
-Set piece: There's a dead guy!
 ```

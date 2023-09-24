@@ -7,6 +7,7 @@ use std::fmt;
 pub struct Monster {
     id: u8,
     hp: u8,
+    limbs: u8,
     size: String,
     body_type: String,
     weak_point: String,
@@ -24,6 +25,7 @@ impl Monster {
         let mut rng = thread_rng();
         let id = roll_d6() + roll_d6() + 2;
         let hp = roll_d6() + 1;
+        let limbs = roll_d6() + 1;
         let size = sizes
             .choose(&mut rng)
             .ok_or("No sizes found!")?
@@ -47,6 +49,7 @@ impl Monster {
         Ok(Monster {
             id,
             hp,
+            limbs,
             size,
             body_type,
             weak_point,
@@ -58,7 +61,7 @@ impl Monster {
 
 impl fmt::Display for Monster {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "  ID: {} HP: {}\n", self.id, self.hp)?;
+        write!(f, "  ID: {} HP: {} LIMBS: {}\n", self.id, self.hp, self.limbs)?;
         write!(f, "  SIZE: {}\n", self.size)?;
         write!(f, "  BODY TYPE: {}\n", self.body_type)?;
         write!(f, "  WEAK POINT: {}\n", self.weak_point)?;
@@ -83,6 +86,7 @@ mod tests {
         let example_monster = Monster {
             id: new_monster.id,
             hp: new_monster.hp,
+            limbs: new_monster.limbs,
             size: "X".to_string(),
             body_type: "Y".to_string(),
             weak_point: "Z".to_string(),
