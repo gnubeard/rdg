@@ -16,7 +16,7 @@ Progress:
 - [x] Monsters
 - [ ] Robots
 - [ ] NPCs
-- [ ] Environmental Hazards
+- [x] Environmental Hazards
 
 ## Why Rust?
 
