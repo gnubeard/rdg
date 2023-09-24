@@ -1,7 +1,7 @@
 # rdg
 Rob's Dungeon Generator
 
-TODO: Switch out Set Piece for an Option so they only show up when an 11 or 12 is rolled.
+TODO: Items, shift config validation left, arg/option dispatch to call for creation of individual elements. More TOML knobs?
 
 ## Rationale
 

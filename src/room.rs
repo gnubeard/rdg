@@ -11,7 +11,7 @@ pub struct Room {
     threats: Vec<Threat>,
     door_count: u8,
     size: String,
-    set_piece: String,
+    set_piece: Option<String>,
 }
 
 impl Room {
@@ -43,11 +43,19 @@ impl Room {
             .choose(&mut rng)
             .ok_or("No sizes found!")?
             .to_string();
-        let set_piece = attrs
-            .set_pieces
-            .choose(&mut rng)
-            .ok_or("No set pieces found!")?
-            .to_string();
+        let set_piece_roll = roll_d6() + roll_d6();
+        let set_piece_happening = set_piece_roll > 8;
+        let set_piece = match set_piece_happening {
+            false => None,
+            true => {
+                let set_piece = attrs
+                    .set_pieces
+                    .choose(&mut rng)
+                    .ok_or("No set pieces found!")?
+                    .to_string();
+                Some(set_piece)
+            }
+        };
         let mut threats = Vec::new();
         let threat_type_roll = roll_d6();
         for _ in 0..threat_count {
@@ -67,7 +75,10 @@ impl Room {
 
 impl fmt::Display for Room {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "SET PIECE: {}\n", self.set_piece)?;
+        match &self.set_piece {
+            Some(s) => write!(f, "SET PIECE: {}\n", s)?,
+            None => (),
+        }
         write!(f, "ROOM TYPE: {}\n", self.room_type)?;
         write!(f, "DESCRIPTOR: {}\n", self.descriptor)?;
         write!(f, "DOOR COUNT: {}\n", self.door_count)?;
@@ -115,15 +126,16 @@ mod tests {
             robots: robot_attrs,
         };
         let new_room = Room::build(&config).unwrap();
-        // a hole in testing, for now
+        // holes in testing, for now
         let threats = new_room.threats.clone();
+        let set_piece = new_room.set_piece.clone();
         let example_room = Room {
             room_type: "Basic".to_string(),
             descriptor: "Blue".to_string(),
             threats,
             door_count: 3,
             size: "Large".to_string(),
-            set_piece: "Skeletons".to_string(),
+            set_piece,
         };
         assert_eq!(example_room, new_room);
     }
