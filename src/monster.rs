@@ -23,9 +23,9 @@ impl Monster {
         let behaviors = &attrs.behaviors;
         let extra_features = &attrs.extra_features;
         let mut rng = thread_rng();
-        let id = roll_d6() + roll_d6() + 2;
-        let hp = roll_d6() + 1;
-        let limbs = roll_d6() + 1;
+        let id = roll_d6() + roll_d6();
+        let hp = roll_d6();
+        let limbs = roll_d6();
         let size = sizes
             .choose(&mut rng)
             .ok_or("No sizes found!")?

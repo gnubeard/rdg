@@ -28,23 +28,15 @@ impl Room {
             .choose(&mut rng)
             .ok_or("No descriptors found!")?
             .to_string();
-        let threat_count = attrs
-            .threat_counts
-            .choose(&mut rng)
-            .ok_or("No threat counts found!")?
-            .clone();
-        let door_count = attrs
-            .door_counts
-            .choose(&mut rng)
-            .ok_or("No door counts found!")?
-            .clone();
+        let threat_count = roll_d6() / 2;
+        let door_count = roll_d6();
         let size = attrs
             .sizes
             .choose(&mut rng)
             .ok_or("No sizes found!")?
             .to_string();
         let set_piece_roll = roll_d6() + roll_d6();
-        let set_piece_happening = set_piece_roll > 8;
+        let set_piece_happening = set_piece_roll > 10;
         let set_piece = match set_piece_happening {
             false => None,
             true => {
@@ -98,8 +90,6 @@ mod tests {
         let room_attrs = RoomAttributes {
             room_types: vec!["Basic".to_string()],
             descriptors: vec!["Blue".to_string()],
-            threat_counts: vec![2],
-            door_counts: vec![3],
             sizes: vec!["Large".to_string()],
             set_pieces: vec!["Skeletons".to_string()],
             hazards: vec!["Chemical Spill".to_string()],
@@ -116,8 +106,7 @@ mod tests {
             last_names: vec!["Davidson".to_string()],
         };
         let robot_attrs = RobotAttributes {
-            robot_prefixes: vec!["R2".to_string()],
-            robot_suffixes: vec!["D2".to_string()],
+            designations: vec!["R2-D2".to_string()],
         };
         let config = Config {
             monsters: monster_attrs,
@@ -127,13 +116,14 @@ mod tests {
         };
         let new_room = Room::build(&config).unwrap();
         // holes in testing, for now
+        let door_count = new_room.door_count.clone();
         let threats = new_room.threats.clone();
         let set_piece = new_room.set_piece.clone();
         let example_room = Room {
             room_type: "Basic".to_string(),
             descriptor: "Blue".to_string(),
             threats,
-            door_count: 3,
+            door_count,
             size: "Large".to_string(),
             set_piece,
         };

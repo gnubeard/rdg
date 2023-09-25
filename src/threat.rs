@@ -50,18 +50,13 @@ impl Threat {
     }
     fn build_robot(robot_attrs: &RobotAttributes) -> Result<Self, Box<dyn Error>> {
         let mut rng = thread_rng();
-        let prefix = robot_attrs
-            .robot_prefixes
+        let designation = robot_attrs
+            .designations
             .choose(&mut rng)
-            .ok_or("No prefixes found!")?
+            .ok_or("No robot designations found!")?
             .to_string();
-        let suffix = robot_attrs
-            .robot_suffixes
-            .choose(&mut rng)
-            .ok_or("No suffixes found!")?
-            .to_string();
-        let person = Threat::Robot(format!("{}-{}", prefix, suffix));
-        Ok(person)
+        let robot = Threat::Robot(format!("{}", designation));
+        Ok(robot)
     }
 }
 

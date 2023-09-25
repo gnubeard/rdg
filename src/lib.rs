@@ -23,8 +23,7 @@ pub struct PeopleAttributes {
 
 #[derive(Deserialize, Clone)]
 pub struct RobotAttributes {
-    robot_prefixes: Vec<String>,
-    robot_suffixes: Vec<String>,
+    designations: Vec<String>,
 }
 
 #[derive(Deserialize, Clone)]
@@ -40,8 +39,6 @@ pub struct MonsterAttributes {
 pub struct RoomAttributes {
     room_types: Vec<String>,
     descriptors: Vec<String>,
-    threat_counts: Vec<u8>,
-    door_counts: Vec<u8>,
     sizes: Vec<String>,
     set_pieces: Vec<String>,
     hazards: Vec<String>,
@@ -55,7 +52,7 @@ impl Config {
 }
 
 pub fn roll_d6() -> u8 {
-    rand::thread_rng().gen_range(0..6)
+    rand::thread_rng().gen_range(0..6) + 1
 }
 
 pub fn run(s: &str) -> Result<(), Box<dyn Error>> {
