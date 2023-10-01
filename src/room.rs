@@ -49,8 +49,8 @@ impl Room {
             }
         };
         let mut threats = Vec::new();
-        let threat_type_roll = roll_d6();
         for _ in 0..threat_count {
+            let threat_type_roll = roll_d6();
             let my_threat = Threat::roll(&config, threat_type_roll)?;
             threats.push(my_threat);
         }
