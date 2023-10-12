@@ -71,8 +71,7 @@ impl fmt::Display for Room {
             Some(s) => write!(f, "SET PIECE: {}\n", s)?,
             None => (),
         }
-        write!(f, "ROOM TYPE: {}\n", self.room_type)?;
-        write!(f, "DESCRIPTOR: {}\n", self.descriptor)?;
+        write!(f, "ROOM: {} {}\n", self.descriptor, self.room_type)?;
         write!(f, "DOOR COUNT: {}\n", self.door_count)?;
         write!(f, "SIZE: {}\n", self.size)?;
         for (i, threat) in self.threats.iter().enumerate() {
