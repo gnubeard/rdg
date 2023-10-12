@@ -1,0 +1,20 @@
+[monsters]
+sizes = ["Tiny", "Small", "Medium", "Large", "Gigantic"]
+body_types = ["Insectoid", "Humanoid", "Quadruped", "Serpentine", "Amorphous"]
+weak_points = ["Head", "Tail", "Leg", "Wing"]
+behaviors = ["Aggressive", "Timid", "Curious", "Defensive"]
+extra_features = ["Fire-breathing", "Spiked", "Bioluminescent", "Venomous"]
+
+[rooms]
+room_types = ["Bedroom", "Kitchen", "Laboratory", "Treasure Room", "Prison Cell"]
+descriptors = ["Moss-covered", "Well-lit", "Eerie", "Decaying", "Modern"]
+sizes = ["Tiny", "Small", "Medium", "Large", "Gigantic"]
+set_pieces = ["Broken Chandelier", "Ancient Altar", "Forgotten Painting", "Mechanical Contraption"]
+hazards = ["Slippery Floor", "Ceiling Spikes", "Gas Leak", "Electrified Water"]
+
+[people]
+first_names = ["John", "Paul", "George", "Ringo"]
+last_names = ["McLennon", "Starr", "Harrison", "Turing"]
+
+[robots]
+designations = ["R2-D2", "T-800", "HAL 9000"]
