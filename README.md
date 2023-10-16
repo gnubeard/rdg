@@ -34,7 +34,7 @@ send hate mail to ROB at ROBERT LAVERY dot COM
 
 ## Building
 
-cargo test, cargo run example.toml, cargo build. Rust is great
+`cargo test`, `cargo run -- example.toml`, `cargo build`. Rust is great
 
 ## Contributing
 
